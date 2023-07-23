@@ -1,16 +1,24 @@
 import React from 'react';
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import { Routes, Route } from 'react-router-dom';
 import About from './components/About';
 import Home from './components/Home';
+import Cart from './components/Cart';
+import Catalog from './components/Catalog';
+import Contacts from './components/Contacts';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Header />
-      <Home />
-      <About />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/catalog' element={<Catalog />} />
+          <Route path='/contacts' element={<Contacts />} />
+        </Routes>
       <Footer />
     </div>
   );

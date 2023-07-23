@@ -5,6 +5,7 @@ import { store } from './app/store';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -12,7 +13,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

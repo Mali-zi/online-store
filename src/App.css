@@ -6,7 +6,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-a {
+a, .menu {
   color: #727e86;
 }
 
@@ -23,9 +23,6 @@ section {
   margin-bottom: 2em;
 }
 
-
-
-
 /* Common Styles */
 .invisible {
   opacity: 0;
@@ -41,7 +38,7 @@ section {
 .header-controls-pic {
   height: 32px;
   width: 32px;
-  margin: 0 10px;
+  margin: 0 5px;
   background-image: url(./img/header-controls-sprite.png);
   background-repeat: no-repeat;
   cursor: pointer;
@@ -75,17 +72,16 @@ section {
   box-shadow: 0px 2px 8px rgba(255, 101, 165, 0.6), inset 0px 1px 1px #ff8076;
 }
 .header-controls-search-form {
-  position: absolute;
-  right: 65px;
-  top: calc(50% - 19px);
   display: block;
-  width: 233px;
+  position: relative;
+  max-width: 233px;
   height: 38px;
   padding: 0 20px;
   background: #FFFFFF;
   box-shadow: 0px 0px 10px #D4E4E6;
   border-radius: 50px;
   text-align: right;
+  visibility: visible;
 }
 .header-controls-search-form .form-control {
   width: 100%;
@@ -95,22 +91,35 @@ section {
   outline: none;
   box-shadow: none;
 }
+.search-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
 
 /* Banner */
 .banner {
   position: relative;
+  width: 100%;
+}
+
+.img-header {
+  width: 100%;
 }
 
 .banner-header {
   position: absolute;
   z-index: 5;
+  display:inline-block;
+  width: 45%;
   right: 0;
-  top: 42px;
-  height: 98px;
-  width: 487px;
+  top: 40%;
   font-weight: bold;
-  font-size: 48px;
-  line-height: 98px;
+  font-size: 3.5vw;
+  line-height: 8vw;
   text-align: center;
   color: #FFFFFF;
   background: linear-gradient(270deg, rgba(161, 179, 191, 0.8) 72.59%, rgba(161, 179, 191, 0) 98.05%);
@@ -218,8 +227,7 @@ section {
 }
 
 .footer-pay {
-  display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 12px auto 0;
 }
 .footer-pay-systems {
@@ -231,9 +239,9 @@ section {
   background-repeat: no-repeat;
   background-image: url(./img/footer-sprite.png);
 }
-.footer-pay-systems:not(:first-child) {
+/* .footer-pay-systems:not(:first-child) {
   margin-left: 5px;
-}
+} */
 .footer-pay-systems-paypal {
   background-position: -2px -6px;
 }
@@ -277,6 +285,10 @@ section {
 
 .footer-copyright {
   font-size: 0.8em;
+}
+
+.footer-contacts {
+  text-align: end;
 }
 
 .footer-contacts-phone {

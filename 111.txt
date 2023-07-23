@@ -1,0 +1,8 @@
+I'm creating a product listing for an online store.
+Я создаю список товаров для интернет-магазина.
+
+Он набрал их целую корзину.
+His shopping cart was filled with them.
+
+I need the product.
+Мне нужен товар.

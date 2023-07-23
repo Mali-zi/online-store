@@ -1,46 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import Banner from './Banner';
 
 export default function Header() {
+  const [searchMessage, setSearchMessage] = useState('');
+
   return (
     <header className="container">
       <div className="row">
         <div className="col">
-          <nav className="navbar navbar-expand-sm navbar-light bg-light">
-            <a className="navbar-brand" href="/">
-            <img src="../img/header-logo.png" alt="Bosa Noga"></img>
-            </a>
-            <div className="collapase navbar-collapse" id="navbarMain">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <a className="nav-link" href="/">Главная</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/catalog.html">Каталог</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/about.html">О магазине</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/contacts.html">Контакты</a>
-                </li>
-              </ul>
-              <div>
-                <div className="header-controls-pics">
-                  <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-                  {/* <!-- Do programmatic navigation on click to /cart.html --> */}
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
-                    <div className="header-controls-cart-menu"></div>
-                  </div>
-                </div>
-                <form data-id="search-form" className="header-controls-search-form form-inline invisible">
-                  <input className="form-control" placeholder="Поиск"></input>
-                </form>
+          <div className='d-flex justify-content-between'>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between navbar-col">
+              <Link to="/" className="navbar-brand">
+                <img src={require("../img/header-logo.png")} alt="Bosa Noga" />
+              </Link>
+              <div className="collapase navbar-collapse" id="navbarMain">
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
+                    <NavLink to="/" className="nav-link menu">Главная</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/catalog" className="nav-link menu">Каталог</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/about" className="nav-link menu">О магазине</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/contacts" className="nav-link menu">Контакты</NavLink>
+                  </li>
+                </ul>
               </div>
+            </nav>
+            <div className='d-flex justify-content-end align-items-start'>
+              <div className="header-controls-pics mt-4 header-controls-search-form">
+                {/* Search form */}
+                <form className="d-flex form-inline" role="search">
+                  <input 
+                    type="search"
+                    className="form-control" 
+                    placeholder="Search"
+                    hidden={false}
+                    value={searchMessage}
+                    onChange={(e) => setSearchMessage(e.target.value)}
+                  />
+                </form>
+                <button 
+                  type="button"
+                  className='search-button'
+                  title="search-button"
+                  onClick={() => setSearchMessage('')}
+                >
+                  <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+                </button>
+              </div>
+              <Link to="/cart">
+              <div className="header-controls-pic mt-4 header-controls-cart">
+                <div className="header-controls-cart-full">1</div>
+                <div className="header-controls-cart-menu"></div>
+              </div>
+            </Link>
             </div>
-          </nav>
+          </div>
         </div>
       </div>
+      <Banner />
     </header>
-    )
+  )
 }
