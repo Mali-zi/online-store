@@ -1,12 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {IProduct, ICategory, IProducts} from '../../models/index';
 
-export const fetchTopSales = createAsyncThunk(
-  'products/fetchTopSales',
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
   async (url: string, thunkApi) => {
     const { rejectWithValue, fulfillWithValue } = thunkApi;
           try{
-          const response = await fetch(url);
+          const response = await fetch(`${url}/items`);
           if (!response.ok) {
               return rejectWithValue(response.status)
           }
@@ -23,13 +23,13 @@ export const fetchCategories = createAsyncThunk(
   async (url: string, thunkApi) => {
     const { rejectWithValue, fulfillWithValue } = thunkApi;
           try{
-          const response = await fetch(url);
+          const response = await fetch(`${url}/categories`);
           if (!response.ok) {
               return rejectWithValue(response.status)
           }
           const data = await response.json();
           return fulfillWithValue(data)
-      }catch(error){
+      }catch(error: any){
           throw rejectWithValue('Oops! Something went wrong. Try again!')
       }
   }
@@ -56,25 +56,48 @@ export const productsSlice = createSlice({
     categories: [],
     selectedCategory: initialSelectedCategory,
     status: 'idle',
-    error: {
-      isError: false,
-      message: '',
-    },
+    error: null,
   } as IProducts,
   reducers: {
     
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTopSales.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
+      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
         state.status = 'fulfilled';
         if (action.payload) {
-          state.topSales = action.payload;
+          state.products = action.payload;
         } else {
-          state.error = 'Ошибка-1!'
+          state.error.message = 'Ошибка-1!'
         }
-      }
+      })
+      .addCase(fetchProducts.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.status = 'rejected';
+        if (action.payload) {
+          state.error = action.payload;
+        };
+      })
 
-      )
+      .addCase(fetchCategories.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
+        state.status = 'fulfilled';
+        if (action.payload) {
+          state.categories = action.payload;
+        } else {
+          state.error.message = 'Ошибка-1!'
+        }
+      })
+      .addCase(fetchCategories.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.status = 'rejected';
+        if (action.payload) {
+          state.error = action.payload;
+        };
+      })
+
   }
 })

@@ -17,19 +17,16 @@ export interface IProducts {
   categories: ICategory[], 
   selectedCategory: ICategory,
   status: string,
-  error: IError,
+  error: any,
 }
-
-export interface IError {
-  isError: boolean;
-  message: string;
-};
 
 export interface ITopSales {
   topSales: IProduct[],
   status: string,
-  error: IError,
+  error: any,
 }
+
+
 
 // export interface NewPostProps {
 //   setPosts: (val: Post[]) => void,
