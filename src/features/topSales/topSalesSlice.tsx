@@ -31,28 +31,30 @@ export const topSalesSlice = createSlice({
   name: 'topSales',
   initialState: {
     topSalesList: [],
-    status: 'idle',
-    error: null,
+    statusTopSales: 'idle',
+    errorTopSales: null,
   } as ITopSales,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTopSales.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
-        state.status = 'fulfilled';
+        state.statusTopSales = 'fulfilled';
         if (action.payload) {
           state.topSalesList = action.payload;
         } else {
-          state.error = 'Ошибка 1';
+          state.errorTopSales = 'Ошибка 1';
         }
       })
       .addCase(fetchTopSales.pending, (state) => {
-        state.status = 'pending';
+        state.statusTopSales = 'pending';
       })
       .addCase(fetchTopSales.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.statusTopSales = 'rejected';
         if (action.payload) {
-          state.error = action.payload;
+          state.errorTopSales = action.payload;
+        } else {
+          state.errorTopSales = 'Oops! Something went wrong. Try again!';
         };
       })
   }

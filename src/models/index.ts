@@ -13,16 +13,21 @@ export interface ICategory {
 
 export interface IProducts {
   productsList: IProduct[],
-  categories: ICategory[], 
+  statusProducts: string,
+  errorProducts: any,
+}
+
+export interface ICategories {
+  categoriesList: ICategory[], 
   selectedCategory: ICategory,
-  status: string,
-  error: any,
+  statusCategories: string,
+  errorCategories: any,
 }
 
 export interface ITopSales {
   topSalesList: IProduct[],
-  status: string,
-  error: any,
+  statusTopSales: string,
+  errorTopSales: any,
 }
 
 export interface IProductCardProps {
@@ -52,9 +57,14 @@ export interface Size {
 
 export interface ISelectedProduct {
   product: IFullProduct,
-  status: string,
-  error: any,
+  statusSelectedProduct: string,
+  errorSelectedProduct: any,
 }
+
+export interface ICatalogProps {
+  children: React.ReactElement;
+};
+
 
 // export interface NewPostProps {
 //   setPosts: (val: Post[]) => void,

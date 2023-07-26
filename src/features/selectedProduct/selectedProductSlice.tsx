@@ -38,28 +38,30 @@ export const selectedProductSlice = createSlice({
   name: 'selectedProduct',
   initialState: {
     product: initialSelectedProduct,
-    status: 'idle',
-    error: null,
+    statusSelectedProduct: 'idle',
+    errorSelectedProduct: null,
   } as ISelectedProduct,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSelectedProduct.fulfilled, (state, action: PayloadAction<IFullProduct>) => {
-        state.status = 'fulfilled';
+        state.statusSelectedProduct = 'fulfilled';
         if (action.payload) {
           state.product = action.payload;
         } else {
-          state.error.message = 'Ошибка-2!'
+          state.errorSelectedProduct = 'Ошибка-2!'
         }
       })
       .addCase(fetchSelectedProduct.pending, (state) => {
-        state.status = 'pending';
+        state.statusSelectedProduct = 'pending';
       })
       .addCase(fetchSelectedProduct.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.statusSelectedProduct = 'rejected';
         if (action.payload) {
-          state.error = action.payload;
+          state.errorSelectedProduct = action.payload;
+        } else {
+          state.errorSelectedProduct = 'Oops! Something went wrong. Try again!';
         };
       })
   }

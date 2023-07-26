@@ -7,7 +7,7 @@ export default function Page404() {
         <div className="col">
           <section className="top-sales">
             <h2 className="text-center">Страница не найдена</h2>
-            <p>
+            <p className="text-center">
               Извините, такая страница не найдена!
             </p>
           </section>
