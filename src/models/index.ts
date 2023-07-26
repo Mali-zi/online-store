@@ -12,8 +12,7 @@ export interface ICategory {
 }
 
 export interface IProducts {
-  products: IProduct[],
-  selectedProduct: IProduct,
+  productsList: IProduct[],
   categories: ICategory[], 
   selectedCategory: ICategory,
   status: string,
@@ -21,12 +20,41 @@ export interface IProducts {
 }
 
 export interface ITopSales {
-  topSales: IProduct[],
+  topSalesList: IProduct[],
   status: string,
   error: any,
 }
 
+export interface IProductCardProps {
+  product: IProduct
+}
 
+export interface IFullProduct {
+  id:           string;
+  category:     string;
+  title:        string;
+  images:      string[];
+  sku:          string;
+  manufacturer: string;
+  color:        string;
+  material:     string;
+  reason:       string;
+  season:       string;
+  heelSize:     string;
+  price:        string;
+  sizes:       Size[];
+}
+
+export interface Size {
+  size:      string;
+  available: boolean;
+}
+
+export interface ISelectedProduct {
+  product: IFullProduct,
+  status: string,
+  error: any,
+}
 
 // export interface NewPostProps {
 //   setPosts: (val: Post[]) => void,

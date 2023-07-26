@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {IProduct, ICategory, IProducts} from '../../models/index';
+import {IProduct, ICategory, IProducts, ISelectedProduct} from '../../models/index';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -35,14 +35,6 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-const initialProduct: IProduct = {
-  id: '',
-  category: '',
-  title: '',
-  price: '',
-  images: [],
-};
-
 const initialSelectedCategory: ICategory = {
   id: '',
   title: '',
@@ -51,22 +43,20 @@ const initialSelectedCategory: ICategory = {
 export const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    products: [],
-    selectedProduct: initialProduct,
+    productsList: [],
     categories: [],
     selectedCategory: initialSelectedCategory,
     status: 'idle',
     error: null,
   } as IProducts,
   reducers: {
-    
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
         state.status = 'fulfilled';
         if (action.payload) {
-          state.products = action.payload;
+          state.productsList = action.payload;
         } else {
           state.error.message = 'Ошибка-1!'
         }
@@ -101,3 +91,5 @@ export const productsSlice = createSlice({
 
   }
 })
+
+export default productsSlice.reducer;

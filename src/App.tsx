@@ -7,6 +7,7 @@ import Catalog from './components/Catalog';
 import Contacts from './components/Contacts';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProductPage from './components/ProductPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/catalog' element={<Catalog />} />
+          <Route path='/catalog/:id' element={<ProductPage />} />
           <Route path='/contacts' element={<Contacts />} />
         </Routes>
       <Footer />

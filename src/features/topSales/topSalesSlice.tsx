@@ -1,8 +1,5 @@
 import { PayloadAction,  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {IProduct, ITopSales} from '../../models/index';
-import { FETCH_TOP_SALES_ERROR_MESSAGE } from '../../constants/messages';
-
-const BASE_URL = 'http://localhost:7070/api';
 
 export const fetchTopSales = createAsyncThunk(
   'topSales/fetchTopSales',
@@ -33,7 +30,7 @@ export const fetchTopSales = createAsyncThunk(
 export const topSalesSlice = createSlice({
   name: 'topSales',
   initialState: {
-    topSales: [],
+    topSalesList: [],
     status: 'idle',
     error: null,
   } as ITopSales,
@@ -44,7 +41,7 @@ export const topSalesSlice = createSlice({
       .addCase(fetchTopSales.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
         state.status = 'fulfilled';
         if (action.payload) {
-          state.topSales = action.payload;
+          state.topSalesList = action.payload;
         } else {
           state.error = 'Ошибка 1';
         }
@@ -60,3 +57,5 @@ export const topSalesSlice = createSlice({
       })
   }
 })
+
+export default topSalesSlice.reducer;
