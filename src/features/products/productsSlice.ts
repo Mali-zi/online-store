@@ -1,19 +1,19 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {IProduct, ICategory, IProducts} from '../../models/index';
+import {IProduct, IProducts} from '../../models/index';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (url: string, thunkApi) => {
     const { rejectWithValue, fulfillWithValue } = thunkApi;
           try{
-          const response = await fetch(`${url}/items`);
+          const response = await fetch(url);
           if (!response.ok) {
               return rejectWithValue(response.status)
           }
           const data = await response.json();
           return fulfillWithValue(data)
-      }catch(error){
-          throw rejectWithValue('Oops! Something went wrong. Try again!')
+      }catch(error: any){
+          throw rejectWithValue(error.message)
       }
   }
 );
@@ -21,7 +21,7 @@ export const fetchProducts = createAsyncThunk(
 export const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    productsList: [],
+    productList: [],
     statusProducts: 'idle',
     errorProducts: null,
   } as IProducts,
@@ -32,9 +32,9 @@ export const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
         state.statusProducts = 'fulfilled';
         if (action.payload) {
-          state.productsList = action.payload;
+          state.productList = action.payload;
         } else {
-          state.errorProducts = 'Ошибка-3!'
+          state.errorProducts = 'Каталог не может быть загружен.'
         }
       })
       .addCase(fetchProducts.pending, (state) => {
@@ -45,7 +45,7 @@ export const productsSlice = createSlice({
         if (action.payload) {
           state.errorProducts = action.payload;
         } else {
-          state.errorProducts = 'Oops! Something went wrong. Try again!'
+          state.errorProducts = 'Ошибка при загрузке каталога.'
         };
       })
 

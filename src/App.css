@@ -6,7 +6,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-a, .menu {
+a {
   color: #727e86;
 }
 
@@ -184,6 +184,15 @@ ul {
 }
 
 /* Catalog */
+.category-btn {
+  border: none;
+  color: #727e86;
+}
+
+.category-btn:active, .category-btn:hover {
+  color: red;
+}
+
 .catalog {
   min-height: 600px;
 }
@@ -307,11 +316,7 @@ ul {
 }
 
 /* Bootstrap */
-.nav-link.active {
-  color: #ff0000;
-}
-
-h2, .h2 {
+h2 {
   margin-bottom: 1.5em;
   margin-top: 2em;
 }

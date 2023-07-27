@@ -18,8 +18,9 @@ export default function TopSales() {
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>
       {statusTopSales === 'pending' ? <Loading /> : <></>}
+      <h4>{statusTopSales === 'rejected' && errorTopSales ? errorTopSales : <></>}</h4>
       <ul className="row row-cols-1 row-cols-md-3 g-4">
-        {topSalesList.length > 0 ? topSalesList.map((item) => <ProductCard product={item} />) : <></>}
+        {statusTopSales === 'fulfilled' && topSalesList.length > 0 ? topSalesList.map((item) => <ProductCard product={item} />) : <></>}
       </ul>
     </section>
   )

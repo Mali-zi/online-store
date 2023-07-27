@@ -12,8 +12,8 @@ export const fetchSelectedProduct = createAsyncThunk(
           }
           const data = await response.json();
           return fulfillWithValue(data)
-      }catch(error){
-          throw rejectWithValue('Oops! Something went wrong. Try again!')
+      }catch(error: any){
+          throw rejectWithValue(error.message)
       }
   }
 );
@@ -50,7 +50,7 @@ export const selectedProductSlice = createSlice({
         if (action.payload) {
           state.product = action.payload;
         } else {
-          state.errorSelectedProduct = 'Ошибка-2!'
+          state.errorSelectedProduct = 'Карточка товара не может быть загружена.'
         }
       })
       .addCase(fetchSelectedProduct.pending, (state) => {
@@ -61,7 +61,7 @@ export const selectedProductSlice = createSlice({
         if (action.payload) {
           state.errorSelectedProduct = action.payload;
         } else {
-          state.errorSelectedProduct = 'Oops! Something went wrong. Try again!';
+          state.errorSelectedProduct = 'Ошибка при загрузке карточки товара.';
         };
       })
   }

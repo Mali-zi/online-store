@@ -7,12 +7,6 @@ export const fetchTopSales = createAsyncThunk(
     const { rejectWithValue, fulfillWithValue } = thunkApi;
           try{
           const response = await fetch(`${url}/top-sales`);
-          console.log('response.type =', response.type);
-          console.log('response.url =', response.url);
-          console.log('response.status =', response.status);
-          console.log('response.ok =', response.ok);
-          console.log('response.statusText =', response.statusText);
-          console.log('response.headers =', response.headers);
           if (!response.ok) {
               return rejectWithValue(response.status)
           }
@@ -43,7 +37,7 @@ export const topSalesSlice = createSlice({
         if (action.payload) {
           state.topSalesList = action.payload;
         } else {
-          state.errorTopSales = 'Ошибка 1';
+          state.errorTopSales = 'Хиты продаж не могут быть загружены.';
         }
       })
       .addCase(fetchTopSales.pending, (state) => {
@@ -54,7 +48,7 @@ export const topSalesSlice = createSlice({
         if (action.payload) {
           state.errorTopSales = action.payload;
         } else {
-          state.errorTopSales = 'Oops! Something went wrong. Try again!';
+          state.errorTopSales = 'Ошибка при загрузке хитов продаж.';
         };
       })
   }

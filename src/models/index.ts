@@ -12,14 +12,19 @@ export interface ICategory {
 }
 
 export interface IProducts {
-  productsList: IProduct[],
+  productList: IProduct[],
   statusProducts: string,
   errorProducts: any,
 }
 
+export interface ISelectedCategoryProducts {
+  selectedCategoryProductsList: IProduct[],
+  statusSelectedCategoryProducts: string,
+  errorSelectedCategoryProducts: any,
+}
+
 export interface ICategories {
   categoriesList: ICategory[], 
-  selectedCategory: ICategory,
   statusCategories: string,
   errorCategories: any,
 }
