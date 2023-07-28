@@ -35,12 +35,30 @@ export const addProducts = createAsyncThunk(
   }
 );
 
+export const sendSearchRequest = createAsyncThunk(
+  'products/sendSearchRequest',
+  async (url: string, thunkApi) => {
+    const { rejectWithValue, fulfillWithValue } = thunkApi;
+          try{
+          const response = await fetch(url);
+          if (!response.ok) {
+              return rejectWithValue(response.status)
+          }
+          const data = await response.json();
+          return fulfillWithValue(data)
+      }catch(error: any){
+          throw rejectWithValue(error.message)
+      }
+  }
+);
+
 export const productsSlice = createSlice({
   name: 'products',
   initialState: {
     productList: [],
     curentCategory: 'Все',
     curentFetchProducts: [],
+    savedSearchRequest: '',
     statusProducts: 'idle',
     errorProducts: null,
   } as IProducts,
@@ -51,10 +69,19 @@ export const productsSlice = createSlice({
         state.productList = [];
       }
     },
-    clearCatalog: (state) => {
-      state.productList = [];
-      state.curentFetchProducts = [];
-    }
+    handleClearError: (state) => {
+        state.errorProducts = null;
+        // state.curentCategory = 'Все';
+    },
+    saveSearchRequest: (state, action: PayloadAction<string>) => {
+      if (action.payload.trim()) {
+        state.savedSearchRequest = action.payload;
+        state.curentFetchProducts = [];
+        state.curentCategory = 'Search';
+      } else {
+        state.errorProducts = 'Невозможно выполнить поиск - запрос не должен быть пустым.'
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -99,8 +126,29 @@ export const productsSlice = createSlice({
         };
       })
 
+      .addCase(sendSearchRequest.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
+        state.statusProducts = 'fulfilled';
+        if (action.payload.length > 0) {
+            state.productList = action.payload;
+          } else {
+          state.curentCategory = 'Все';
+          state.errorProducts = 'По вашему запросу ничего не найдено.'
+        }
+      })
+      .addCase(sendSearchRequest.pending, (state) => {
+        state.statusProducts = 'pending';
+      })
+      .addCase(sendSearchRequest.rejected, (state, action) => {
+        state.statusProducts = 'rejected';
+        if (action.payload) {
+          state.errorProducts = action.payload;
+        } else {
+          state.errorProducts = 'Ошибка при загрузке каталога.'
+        };
+      })
+
   }
 })
 
-export const {setCategory, clearCatalog} = productsSlice.actions;
+export const {setCategory, handleClearError, saveSearchRequest} = productsSlice.actions;
 export default productsSlice.reducer;

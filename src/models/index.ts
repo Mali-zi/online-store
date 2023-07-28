@@ -15,6 +15,7 @@ export interface IProducts {
   productList: IProduct[],
   curentCategory: string,
   curentFetchProducts: IProduct[],
+  savedSearchRequest: string,
   statusProducts: string,
   errorProducts: any,
 }

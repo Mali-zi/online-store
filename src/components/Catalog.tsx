@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ProductCard from './ProductCard';
-import { addProducts, fetchProducts, setCategory, clearCatalog } from '../features/products/productsSlice';
+import { addProducts, fetchProducts, sendSearchRequest, setCategory, saveSearchRequest } from '../features/products/productsSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import Loading from './Loading';
-import { ICatalogProps, IProduct } from '../models';
+import { ICatalogProps } from '../models';
 
 export default function Catalog({children}: ICatalogProps) {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products);
   const categories = useAppSelector((state) => state.categories);
-  const { productList, curentCategory, curentFetchProducts, statusProducts, errorProducts } = products;
+  const { productList, curentCategory, curentFetchProducts, savedSearchRequest, statusProducts, errorProducts } = products;
   const { categoriesList, statusCategories, errorCategories } = categories;
   const [i, setI] = useState(1);
 
@@ -21,14 +21,17 @@ export default function Catalog({children}: ICatalogProps) {
   }, []);
 
   useEffect(() => {
-    if (curentCategory === 'Все') {
-      dispatch(fetchProducts('http://localhost:7070/api/items'));
+    if (curentCategory === 'Search') {
+      dispatch(sendSearchRequest(`http://localhost:7070/api/items?q=${savedSearchRequest}`));
     } else {
-      dispatch(fetchProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}`));
+      if (curentCategory === 'Все') {
+        dispatch(fetchProducts('http://localhost:7070/api/items'));
+      } else {
+        dispatch(fetchProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}`));
+      };
     };
     setI(1);
-  }, [curentCategory]);
-
+  }, [curentCategory, savedSearchRequest]);
 
   const newCategories = [{id: 'Все', title: "Все"}, ...categoriesList];
   const newCategoriesList = newCategories.map((item) => {
@@ -46,10 +49,14 @@ export default function Catalog({children}: ICatalogProps) {
   });
 
   function handleElse() {
-    if (curentCategory === 'Все') {
-      dispatch(addProducts(`http://localhost:7070/api/items?offset=${6 * i}`));
+    if (curentCategory === 'Search') {
+      dispatch(addProducts(`http://localhost:7070/api/items?q=${savedSearchRequest}=${6 * i}`));
     } else {
-      dispatch(addProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}&offset=${6 * i}`));
+      if (curentCategory === 'Все') {
+        dispatch(addProducts(`http://localhost:7070/api/items?offset=${6 * i}`));
+      } else {
+        dispatch(addProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}&offset=${6 * i}`));
+      };
     };
     setI(prev => ++prev);
   };
