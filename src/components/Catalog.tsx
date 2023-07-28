@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ProductCard from './ProductCard';
-import { addProducts, fetchProducts, sendSearchRequest, setCategory, saveSearchRequest } from '../features/products/productsSlice';
+import { addProducts, fetchProducts, sendSearchRequest, setCategory } from '../features/products/productsSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import Loading from './Loading';
 import { ICatalogProps } from '../models';
@@ -13,7 +13,6 @@ export default function Catalog({children}: ICatalogProps) {
   const { productList, curentCategory, curentFetchProducts, savedSearchRequest, statusProducts, errorProducts } = products;
   const { categoriesList, statusCategories, errorCategories } = categories;
   const [i, setI] = useState(1);
-
 
   useEffect(() => {
     dispatch(fetchCategories('http://localhost:7070/api/categories'));

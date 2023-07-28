@@ -71,7 +71,6 @@ export const productsSlice = createSlice({
     },
     handleClearError: (state) => {
         state.errorProducts = null;
-        // state.curentCategory = 'Все';
     },
     saveSearchRequest: (state, action: PayloadAction<string>) => {
       if (action.payload.trim()) {
@@ -79,7 +78,7 @@ export const productsSlice = createSlice({
         state.curentFetchProducts = [];
         state.curentCategory = 'Search';
       } else {
-        state.errorProducts = 'Невозможно выполнить поиск - запрос не должен быть пустым.'
+        state.errorProducts = 'Невозможно выполнить поиск: запрос не должен быть пустым.'
       }
     },
   },

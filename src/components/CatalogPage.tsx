@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Catalog from './Catalog'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { sendSearchRequest, handleClearError, saveSearchRequest } from '../features/products/productsSlice';
+import { handleClearError, saveSearchRequest } from '../features/products/productsSlice';
 
 export default function CatalogPage() {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products);
-  const { productList, curentCategory, curentFetchProducts, savedSearchRequest, statusProducts, errorProducts } = products;
-
+  const { errorProducts } = products;
   const [searchRequest, setSearchRequest] = useState('');
+  
   function handleSearchRequest(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault();
-      // dispatch(sendSearchRequest(`http://localhost:7070/api/items?q=${searchRequest}`));
+      event.currentTarget.blur();
       dispatch(saveSearchRequest(searchRequest));
       setSearchRequest('');
     }
-  }
+  };
 
   return (
     <main className="container">
@@ -38,7 +38,7 @@ export default function CatalogPage() {
                 onFocus={() => dispatch(handleClearError())}
               />
             </form>
-            {errorProducts && <h4>{errorProducts}</h4>}
+            {errorProducts && <div className='fs-4 text-danger text-center'>{errorProducts}</div>}
             </>
           </Catalog>
         </div>
