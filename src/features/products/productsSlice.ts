@@ -81,6 +81,9 @@ export const productsSlice = createSlice({
         state.errorProducts = 'Невозможно выполнить поиск: запрос не должен быть пустым.'
       }
     },
+    handleClearSearchRequest: (state) => {
+        state.savedSearchRequest = '';
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -149,5 +152,5 @@ export const productsSlice = createSlice({
   }
 })
 
-export const {setCategory, handleClearError, saveSearchRequest} = productsSlice.actions;
+export const {setCategory, handleClearError, saveSearchRequest, handleClearSearchRequest} = productsSlice.actions;
 export default productsSlice.reducer;

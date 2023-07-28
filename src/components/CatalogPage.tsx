@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Catalog from './Catalog'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleClearError, saveSearchRequest } from '../features/products/productsSlice';
@@ -6,17 +6,20 @@ import { handleClearError, saveSearchRequest } from '../features/products/produc
 export default function CatalogPage() {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products);
-  const { errorProducts } = products;
-  const [searchRequest, setSearchRequest] = useState('');
+  const { savedSearchRequest, errorProducts } = products;
+  const [searchRequest, setSearchRequest] = useState(savedSearchRequest);
   
   function handleSearchRequest(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault();
       event.currentTarget.blur();
       dispatch(saveSearchRequest(searchRequest));
-      setSearchRequest('');
     }
   };
+
+  useEffect(() => {
+    setSearchRequest(savedSearchRequest)
+  }, [savedSearchRequest])
 
   return (
     <main className="container">

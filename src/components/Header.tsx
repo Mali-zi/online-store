@@ -4,6 +4,7 @@ import Banner from './Banner';
 
 export default function Header() {
   const [searchMessage, setSearchMessage] = useState('');
+  // const [searchRequest, setSearchRequest] = useState(savedSearchRequest);
 
   return (
     <header className="container">

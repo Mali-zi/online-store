@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ProductCard from './ProductCard';
-import { addProducts, fetchProducts, sendSearchRequest, setCategory } from '../features/products/productsSlice';
+import { addProducts, fetchProducts, sendSearchRequest, setCategory, handleClearSearchRequest } from '../features/products/productsSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import Loading from './Loading';
 import { ICatalogProps } from '../models';
@@ -20,7 +20,7 @@ export default function Catalog({children}: ICatalogProps) {
   }, []);
 
   useEffect(() => {
-    if (curentCategory === 'Search') {
+    if (curentCategory && curentCategory === 'Search') {
       dispatch(sendSearchRequest(`http://localhost:7070/api/items?q=${savedSearchRequest}`));
     } else {
       if (curentCategory === 'Все') {
@@ -39,7 +39,10 @@ export default function Catalog({children}: ICatalogProps) {
         <button 
           type="button" 
           className="btn mx-2 category-btn"
-          onClick={() => dispatch(setCategory(item.id.toString()))}
+          onClick={() => {
+            dispatch(setCategory(item.id.toString()));
+            dispatch(handleClearSearchRequest());
+          }}
         >
           {item.title}
         </button>
