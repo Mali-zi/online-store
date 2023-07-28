@@ -1,51 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ProductCard from './ProductCard';
-import { fetchProducts } from '../features/products/productsSlice';
+import { addProducts, fetchProducts, setCategory, clearCatalog } from '../features/products/productsSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import Loading from './Loading';
-import { ICatalogProps } from '../models';
+import { ICatalogProps, IProduct } from '../models';
 
 export default function Catalog({children}: ICatalogProps) {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products);
   const categories = useAppSelector((state) => state.categories);
-  const { productList, statusProducts, errorProducts } = products;
+  const { productList, curentCategory, curentFetchProducts, statusProducts, errorProducts } = products;
   const { categoriesList, statusCategories, errorCategories } = categories;
+  const [i, setI] = useState(1);
 
-  const [curentCategory, setCurentCategory] = useState('Все');
-  
+
   useEffect(() => {
     dispatch(fetchCategories('http://localhost:7070/api/categories'));
     dispatch(fetchProducts('http://localhost:7070/api/items'));
   }, []);
 
-  function handleSelectCategory(id: string) {
-    if (id !== curentCategory) {
-      setCurentCategory(id);
-      if (id !== 'Все') {
-        dispatch(fetchProducts(`http://localhost:7070/api/items?categoryId=${id}`));
-      } else {
-        dispatch(fetchProducts('http://localhost:7070/api/items'));
-      }
-    }
-  };
+  useEffect(() => {
+    if (curentCategory === 'Все') {
+      dispatch(fetchProducts('http://localhost:7070/api/items'));
+    } else {
+      dispatch(fetchProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}`));
+    };
+    setI(1);
+  }, [curentCategory]);
+
 
   const newCategories = [{id: 'Все', title: "Все"}, ...categoriesList];
-
   const newCategoriesList = newCategories.map((item) => {
     return (
       <li key={item.id} className="nav-item">
         <button 
           type="button" 
           className="btn mx-2 category-btn"
-          onClick={() => handleSelectCategory(item.id.toString())}
+          onClick={() => dispatch(setCategory(item.id.toString()))}
         >
           {item.title}
         </button>
       </li>
     )
   });
+
+  function handleElse() {
+    if (curentCategory === 'Все') {
+      dispatch(addProducts(`http://localhost:7070/api/items?offset=${6 * i}`));
+    } else {
+      dispatch(addProducts(`http://localhost:7070/api/items?categoryId=${curentCategory}&offset=${6 * i}`));
+    };
+    setI(prev => ++prev);
+  };
+
+  function btnElse() {
+    if ((productList.length > 5 && i < 2) || curentFetchProducts.length > 5) {
+      return (
+        <div className="text-center mt-4">
+          <button 
+            type='button'
+            className="btn btn-outline-secondary"
+            onClick={handleElse}
+          >
+            Загрузить ещё
+          </button>
+        </div>
+      )
+    } else {
+      return <></>
+    }
+  };
 
   function catalogSection() {
     if (statusProducts === 'pending' || statusCategories === 'pending') {
@@ -71,6 +96,7 @@ export default function Catalog({children}: ICatalogProps) {
           <ul className="row row-cols-1 row-cols-md-3 g-4">
             {productList.map((item) => <ProductCard product={item} />)}
           </ul>
+          {btnElse()}
         </section>
       )
     };

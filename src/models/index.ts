@@ -13,6 +13,8 @@ export interface ICategory {
 
 export interface IProducts {
   productList: IProduct[],
+  curentCategory: string,
+  curentFetchProducts: IProduct[],
   statusProducts: string,
   errorProducts: any,
 }
