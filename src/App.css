@@ -99,7 +99,15 @@ ul {
   outline: none;
   box-shadow: none;
 }
-.search-button {
+.search-button-first {
+  margin-top: 20px;
+  padding-right: 0;
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
+
+.search-button-second {
   position: absolute;
   right: 0;
   top: 0;

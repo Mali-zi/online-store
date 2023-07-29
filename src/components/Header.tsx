@@ -1,10 +1,68 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Banner from './Banner';
+import { saveSearchRequest } from '../features/products/productsSlice';
+import { useAppDispatch } from '../app/hooks';
 
 export default function Header() {
-  const [searchMessage, setSearchMessage] = useState('');
-  // const [searchRequest, setSearchRequest] = useState(savedSearchRequest);
+  const dispatch = useAppDispatch();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toggle, setToggle] = useState(true);
+
+  function handleSearchQuery() {
+    dispatch(saveSearchRequest(searchQuery));
+    setToggle(prev => !prev);
+  };
+
+  function handleClick(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.currentTarget.blur();
+      dispatch(saveSearchRequest(searchQuery));
+      setToggle(prev => !prev);
+    }
+  };
+
+  function searchForm() {
+    return (
+      <div className="header-controls-pics mt-4 header-controls-search-form">
+        <form className="d-flex form-inline" role="search">
+          <input 
+            type="search"
+            className="form-control" 
+            placeholder="Поиск"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => handleClick(e)}
+          />
+        <Link to='/catalog'>
+
+        <button 
+          type="button"
+          className='search-button-second'
+          title="search-button-second"
+          onClick={handleSearchQuery}
+        >
+            <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+        </button>
+        </Link>
+        </form>
+      </div>
+    )
+  }
+
+  function btnSearch() {
+    return (
+      <button 
+        type="button"
+        className='search-button-first'
+        title="search-button-first"
+        onClick={() => setToggle(prev => !prev)}
+      >
+        <div data-id="search-expander" className="header-controls-pic header-controls-search mx-0"></div>
+      </button>
+    )
+  }
 
   return (
     <header className="container">
@@ -33,33 +91,13 @@ export default function Header() {
               </div>
             </nav>
             <div className='d-flex justify-content-end align-items-start'>
-              <div className="header-controls-pics mt-4 header-controls-search-form">
-                {/* Search form */}
-                <form className="d-flex form-inline" role="search">
-                  <input 
-                    type="search"
-                    className="form-control" 
-                    placeholder="Search"
-                    hidden={false}
-                    value={searchMessage}
-                    onChange={(e) => setSearchMessage(e.target.value)}
-                  />
-                </form>
-                <button 
-                  type="button"
-                  className='search-button'
-                  title="search-button"
-                  onClick={() => setSearchMessage('')}
-                >
-                  <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-                </button>
-              </div>
+              {toggle ? btnSearch() : searchForm()}
               <Link to="/cart">
-              <div className="header-controls-pic mt-4 header-controls-cart">
-                <div className="header-controls-cart-full">1</div>
-                <div className="header-controls-cart-menu"></div>
-              </div>
-            </Link>
+                <div className="header-controls-pic mt-4 header-controls-cart">
+                  <div className="header-controls-cart-full">1</div>
+                  <div className="header-controls-cart-menu"></div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
