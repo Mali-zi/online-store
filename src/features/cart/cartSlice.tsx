@@ -59,8 +59,14 @@ export const cartSlice = createSlice({
         }
       };
     },
+    deleteProduct: (state, action: PayloadAction<string>) => {
+      state.cartProducts = state.cartProducts.filter((cartProduct) => cartProduct.product.id !== action.payload)
+    },
     clearError: (state) => {
       state.errorCart = null;
+    },
+    clearStatus: (state) => {
+      state.statusCart = 'idle';
     },
     placeOrder: (state, action: PayloadAction<IPlaceOrderProps>) => {
       const itemsList = state.cartProducts.map((cartProduct) => { 
@@ -88,7 +94,7 @@ export const cartSlice = createSlice({
       .addCase(sendOrder.fulfilled, (state) => {
         state.statusCart = 'fulfilled';
         state.cartProducts = [];
-        state.statusCart = 'idle';
+        state.statusCart = 'fulfilled';
         state.errorCart = null;
         state.order = initialOrder;
       })
@@ -106,5 +112,5 @@ export const cartSlice = createSlice({
   }
 })
 
-export const {addToCart, clearError, placeOrder} = cartSlice.actions;
+export const {addToCart, clearError, placeOrder, clearStatus, deleteProduct} = cartSlice.actions;
 export default cartSlice.reducer;

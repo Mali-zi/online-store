@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { Link } from 'react-router-dom';
-import { placeOrder, sendOrder } from '../features/cart/cartSlice';
+import { clearStatus, deleteProduct, placeOrder, sendOrder } from '../features/cart/cartSlice';
 import Loading from './Loading';
 
 
@@ -14,20 +14,36 @@ export default function Cart() {
   const [checked, setChecked] = useState(false);
   const [formerrors, setFormErrors] = useState('');
 
+  useEffect(() => {
+      dispatch(clearStatus());
+  }, []);
+
+
   const colTitle = ['#', 'Название', 'Размер', 'Кол-во', 'Стоимость', 'Итого', 'Действия'];
   const cartProductsList = cartProducts.map((cartProduct, index) => {
     return (
-      <tr>
+      <tr key={index}>
         <th scope="row">{index + 1}</th>
         <td><Link to={`/catalog/${cartProduct.product.id}`}>{cartProduct.product.title}</Link></td>
         <td>{cartProduct.pickedSize}</td>
         <td>{cartProduct.count}</td>
         <td>{cartProduct.product.price} руб.</td>
         <td>{cartProduct.product.price * cartProduct.count} руб.</td>
-        <td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
+        <td>
+          <button 
+            type='button'
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => handleDelete(cartProduct.product.id)}
+          >
+            Удалить
+          </button></td>
       </tr>
     )
   });
+
+  function handleDelete(id: string) {
+    dispatch(deleteProduct(id))
+  };
 
   const totalCost = cartProducts.reduce((sum, current) => sum + current.product.price * current.count, 0);
 
@@ -64,7 +80,7 @@ export default function Cart() {
             <table className="table table-bordered table-hover">
               <thead>
                 <tr>
-                  {colTitle.map((item, index) => {return <th scope="col">{item}</th>})}
+                  {colTitle.map((item, index) => {return <th scope="col" key={index}>{item}</th>})}
                 </tr>
               </thead>
               <tbody>
@@ -76,7 +92,7 @@ export default function Cart() {
               </tbody>
             </table>
             {errorCart && <h4 className='text-center text-danger'>{errorCart}</h4>}
-            {(statusCart === "fulfilled") && <h4 className="text-danger">Ваш заказ успешно отправлен</h4>}
+            {(statusCart === "fulfilled") && <h4 className="text-center text-danger">Ваш заказ успешно отправлен</h4>}
           </section>
 
           <section className="order">
@@ -142,7 +158,6 @@ export default function Cart() {
   return (
     <>
       {(statusCart === 'pending') ? <Loading /> : cartSection()}
-      {(statusCart === "fulfilled") && <h4 className="text-danger">Ваш заказ успешно отправлен</h4>}
     </>
   )
 }

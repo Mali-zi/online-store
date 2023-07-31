@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ProductCard( {product}: IProductCardProps ) {
   return (
-    <li key= {product.id} className="col">
+    <li key={product.id} className="col">
       <div className="card h-100">
         <img src={product.images[0]} className="card-img-top" alt={product.title}></img>
         <div className="card-body">
