@@ -17,11 +17,9 @@ export default function ProductPage() {
     }
   }, []);
 
-  const cart = useAppSelector((state) => state.cart);
-  const {cartProducts, statusCart, errorCart} = cart;
   const selectedProduct = useAppSelector((state) => state.selectedProduct);
-  const {product, statusSelectedProduct, errorSelectedProduct, selectedSize, selectedAmount} = selectedProduct;
-  const {category, title, images, sku, manufacturer, color, material, reason, season, heelSize, price, sizes} = product;
+  const {product, statusSelectedProduct, errorSelectedProduct} = selectedProduct;
+  const {title, images, sku, manufacturer, color, material, reason, season, price, sizes} = product;
   const [count, setCount] = useState(1);
   const [pickedSize, setPickedSize] = useState('');
 
@@ -125,7 +123,9 @@ export default function ProductPage() {
             </div>
             <div className="col-7">
               <p className="fs-3 fw-bold text-center">{title}</p>
-              <p className="fs-5 fw-bold text-center mb-4"><span className='text-muted'>Цена:</span> {price} руб.</p>
+              <p className="fs-5 fw-bold text-center mb-4">
+                <span className='text-muted'>Цена:</span> {price} руб.
+              </p>
               <table className="table table-bordered">
                 <tbody>
                   <tr>

@@ -5,24 +5,24 @@ export const sendOrder = createAsyncThunk(
   'cart/sendOrder',
   async (order: IOrder, thunkApi) => {
     const { rejectWithValue, fulfillWithValue } = thunkApi;
-          try{
-          const response = await fetch('http://localhost:7070/api/order',
-          {
-            method: 'post',
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(order),
-          }
-          );
-          if (!response.ok) {
-              return rejectWithValue(response.status)
-          }
-          const data = await response.text();
-          return fulfillWithValue(data)
-      }catch(error: any){
-          throw rejectWithValue(`Ошибка при отправке заказа: ${error.message}`)
-      }
+    try{
+      const response = await fetch('http://localhost:7070/api/order',
+        {
+          method: 'post',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(order),
+        }
+      );
+      if (!response.ok) {
+        return rejectWithValue(response.status)
+      };
+      const data = await response.text();
+      return fulfillWithValue(data)
+    } catch(error: any) {
+      throw rejectWithValue(`Ошибка при отправке заказа: ${error.message}`)
+    }
   }
 );
 
@@ -42,6 +42,7 @@ export const cartSlice = createSlice({
     errorCart: null,
     order: initialOrder,
   } as ICartProducts,
+
   reducers: {
     addToCart: (state, action: PayloadAction<ICartProduct>) => {
       if (action.payload) {
@@ -59,15 +60,19 @@ export const cartSlice = createSlice({
         }
       };
     },
+
     deleteProduct: (state, action: PayloadAction<string>) => {
       state.cartProducts = state.cartProducts.filter((cartProduct) => cartProduct.product.id !== action.payload)
     },
+
     clearError: (state) => {
       state.errorCart = null;
     },
+
     clearStatus: (state) => {
       state.statusCart = 'idle';
     },
+    
     placeOrder: (state, action: PayloadAction<IPlaceOrderProps>) => {
       const itemsList = state.cartProducts.map((cartProduct) => { 
         return (

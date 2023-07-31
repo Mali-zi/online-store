@@ -85,6 +85,7 @@ export const productsSlice = createSlice({
         state.savedSearchRequest = '';
     },
   },
+  
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
@@ -148,7 +149,6 @@ export const productsSlice = createSlice({
           state.errorProducts = 'Ошибка при загрузке каталога.'
         };
       })
-
   }
 })
 

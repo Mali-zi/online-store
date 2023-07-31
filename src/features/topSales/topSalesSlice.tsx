@@ -30,6 +30,7 @@ export const topSalesSlice = createSlice({
   } as ITopSales,
   reducers: {
   },
+  
   extraReducers: (builder) => {
     builder
       .addCase(fetchTopSales.fulfilled, (state, action: PayloadAction<IProduct[]>) => {

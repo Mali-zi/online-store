@@ -1,6 +1,3 @@
-import React from 'react'
-import Banner from './Banner'
-
 export default function Contacts() {
   return (
     <main className="container">

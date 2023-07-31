@@ -45,6 +45,7 @@ export const selectedProductSlice = createSlice({
   } as ISelectedProduct,
   reducers: {
   },
+  
   extraReducers: (builder) => {
     builder
       .addCase(fetchSelectedProduct.fulfilled, (state, action: PayloadAction<IFullProduct>) => {

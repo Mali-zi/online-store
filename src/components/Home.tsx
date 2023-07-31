@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TopSales from './TopSales';
 import Catalog from './Catalog';
 
