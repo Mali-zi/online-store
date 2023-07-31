@@ -65,14 +65,6 @@ export interface ICartProducts {
   errorCart: any,
   order: IOrder,
 }
-// export interface ICart {
-//   products: IFullProduct[],
-//   statusCart: string,
-//   errorCart: any,
-//   selectedSize: string,
-//   selectedAmount: number,
-//   order: IOrder,
-// }
 export interface IOrder{
   owner: {
     phone: string,
@@ -81,9 +73,8 @@ export interface IOrder{
   items: IOrderItem[]
 }
 export interface IOrderItem{
-  id: string,
+  id: number,
   price: number,
-  size: string,
   count: number,
 }
 export interface ISelectedProduct {
@@ -101,43 +92,3 @@ export interface IPlaceOrderProps {
   phone: string, 
   address: string,
 }
-
-// export interface LinkProps
-//   extends Omit<
-//     React.AnchorHTMLAttributes<HTMLAnchorElement>,
-//     "href"
-//   > {
-//   replace?: boolean;
-//   state?: any;
-//   to: To;
-//   reloadDocument?: boolean;
-//   preventScrollReset?: boolean;
-//   relative?: "route" | "path";
-// }
-
-// type To = string | Partial<Path>;
-
-// interface Path {
-//   pathname: string;
-//   search: string;
-//   hash: string;
-// }
-
-// export interface IProps1 {
-//   event: React.FormEvent<HTMLFormElement>
-//   massage: string, 
-//   setMassage: (val: string) => void, 
-//   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-// };
-
-// export interface IProps2 {
-//   posts: IPost[], 
-//   setPosts: (val: IPost[]) => void,
-// };
-
-// export interface ButtonProps {
-//   handleDelete?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-//   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-//   handleUpdate?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-// }
-

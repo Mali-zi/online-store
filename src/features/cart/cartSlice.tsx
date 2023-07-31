@@ -1,7 +1,30 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {ICartProducts, ICartProduct, IOrder, IPlaceOrderProps} from '../../models/index';
 
-
+export const sendOrder = createAsyncThunk(
+  'cart/sendOrder',
+  async (order: IOrder, thunkApi) => {
+    const { rejectWithValue, fulfillWithValue } = thunkApi;
+          try{
+          const response = await fetch('http://localhost:7070/api/order',
+          {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ ...order }),
+          }
+          );
+          if (!response.ok) {
+              return rejectWithValue(response.status)
+          }
+          const data = await response.json();
+          return fulfillWithValue(data)
+      }catch(error: any){
+          throw rejectWithValue('Ошибка при отправке заказа.')
+      }
+  }
+);
 
 const initialOrder: IOrder = {
   owner: {
@@ -43,9 +66,8 @@ export const cartSlice = createSlice({
       const itemsList = state.cartProducts.map((cartProduct) => { 
         return (
           {
-            id: cartProduct.product.id,
+            id: Number(cartProduct.product.id),
             price: cartProduct.product.price,
-            size: cartProduct.pickedSize,
             count: cartProduct.count,
           }
         )
@@ -60,6 +82,28 @@ export const cartSlice = createSlice({
     };
     }
   },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(sendOrder.fulfilled, (state) => {
+        state.statusCart = 'fulfilled';
+        state.cartProducts = [];
+        state.statusCart = 'idle';
+        state.errorCart = null;
+        state.order = initialOrder;
+      })
+      .addCase(sendOrder.pending, (state) => {
+        state.statusCart = 'pending';
+      })
+      .addCase(sendOrder.rejected, (state, action) => {
+        state.statusCart = 'rejected';
+        if (action.payload) {
+          state.errorCart = action.payload;
+        } else {
+          state.errorCart = 'Ошибка при отправке заказа.'
+        };
+      })
+  }
 })
 
 export const {addToCart, clearError, placeOrder} = cartSlice.actions;

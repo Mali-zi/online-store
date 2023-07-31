@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { Link } from 'react-router-dom';
-import { placeOrder } from '../features/cart/cartSlice';
+import { placeOrder, sendOrder } from '../features/cart/cartSlice';
+import Loading from './Loading';
 
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
-  const {cartProducts, statusCart, errorCart} = cart;
+  const {cartProducts, statusCart, errorCart, order} = cart;
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [checked, setChecked] = useState(false);
@@ -46,14 +47,16 @@ export default function Cart() {
         } else {
           dispatch(placeOrder({phone, address}));
           errors = '';
+          dispatch(sendOrder(order));
         };
       }
     };
     setFormErrors(errors);
   };
 
-  return (
-    <main className="container">
+  function cartSection() {
+    return (
+      <main className="container">
       <div className="row">
         <div className="col">
           <section className="cart">
@@ -73,6 +76,7 @@ export default function Cart() {
               </tbody>
             </table>
             {errorCart && <h4 className='text-center text-danger'>{errorCart}</h4>}
+            {(statusCart === "fulfilled") && <h4 className="text-danger">Ваш заказ успешно отправлен</h4>}
           </section>
 
           <section className="order">
@@ -132,5 +136,14 @@ export default function Cart() {
         </div>
       </div>
     </main>
+
+    )
+  };
+
+  return (
+    <>
+      {(statusCart === 'pending') ? <Loading /> : cartSection()}
+      {(statusCart === "fulfilled") && <h4 className="text-danger">Ваш заказ успешно отправлен</h4>}
+    </>
   )
 }
