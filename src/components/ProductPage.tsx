@@ -1,31 +1,99 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Page404 from './Page404';
 import { fetchSelectedProduct } from '../features/selectedProduct/selectedProductSlice';
 import Loading from './Loading';
+import { addToCart, clearError } from '../features/cart/cartSlice';
 
 export default function ProductPage() {
   const { id } = useParams();
-  console.log(id);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if(id) {
-      dispatch(fetchSelectedProduct(id))
+      dispatch(fetchSelectedProduct(id));
+      dispatch(clearError());
     }
   }, []);
 
+  const cart = useAppSelector((state) => state.cart);
+  const {cartProducts, statusCart, errorCart} = cart;
   const selectedProduct = useAppSelector((state) => state.selectedProduct);
-  const {category, title, images, sku, manufacturer, color, material, reason, season, heelSize, price, sizes} = selectedProduct.product;
-  const statusSelectedProduct = selectedProduct.statusSelectedProduct;
-  const errorSelectedProduct = selectedProduct.errorSelectedProduct;
+  const {product, statusSelectedProduct, errorSelectedProduct, selectedSize, selectedAmount} = selectedProduct;
+  const {category, title, images, sku, manufacturer, color, material, reason, season, heelSize, price, sizes} = product;
+  const [count, setCount] = useState(1);
+  const [pickedSize, setPickedSize] = useState('');
 
-  function sizesInstock() {
+  function decrease() {
+    if (count > 1) {
+      setCount(prev => --prev)
+    }
+  };
+
+  function increase() {
+    if (count < 10) {
+      setCount(prev => ++prev)
+    }
+  };
+
+  function sizeSection() {
     return (
       <div className="gap-2 d-md-flex justify-content-center" role="group" aria-label="first-btn-group">
         <div>Размеры в наличии: </div>
-        {sizes.map((item) => <button type="button" className="btn btn-light catalog-item-size" disabled={item.available}>{item.size}</button>)}
+        {sizes.map((item, index) => 
+          <button 
+            type="button" 
+            key={index}
+            className={pickedSize === item.size ? "btn btn-light catalog-item-size selected" : "btn btn-light catalog-item-size"}  
+            disabled={item.available}
+            onClick={() => setPickedSize(item.size)}
+          >
+            {item.size}
+          </button>
+        )}
+      </div>
+    )
+  };
+
+  function handleToCart() {
+    if (count && pickedSize) {
+      dispatch(addToCart({product, pickedSize, count}));
+    }
+  };
+
+  function amountSection() {
+    return (
+      <div className='row mt-3'>
+        <div className='col d-flex justify-content-end align-items-center'>
+          <div className='text-end'>Количество:</div>
+        </div>
+        <div className='col'>
+        <div className="btn-toolbar" role="toolbar">
+          <div className="btn-group me-2" role="group">
+            <button type="button" className="btn btn-secondary" onClick={decrease}>-</button>
+            <button type="button" className="btn btn-outline-secondary" disabled>{count}</button>
+            <button type="button" className="btn btn-secondary" onClick={increase}>+</button>
+          </div>
+        </div>
+        </div>
+      </div>
+    )
+  };
+
+  function buttonSection() {
+    return (
+      <div>
+        <button 
+          type="button" 
+          className="btn btn-danger container-fluid mt-4"
+          disabled={pickedSize === ''}
+          onClick={handleToCart}
+        >
+          <Link to='/cart'>
+            В корзину
+          </Link>
+        </button>
       </div>
     )
   };
@@ -86,24 +154,13 @@ export default function ProductPage() {
                   </tr>
                 </tbody>
               </table>
-              <div className="text-center">
-                {sizesInstock()}
-                <div className='row mt-3'>
-                  <div className='col d-flex justify-content-end align-items-center'>
-                    <div className='text-end'>Количество:</div>
-                  </div>
-                  <div className='col'>
-                  <div className="btn-toolbar" role="toolbar">
-                    <div className="btn-group me-2" role="group">
-                      <button type="button" className="btn btn-secondary">-</button>
-                      <button type="button" className="btn btn-outline-secondary" disabled>2</button>
-                      <button type="button" className="btn btn-secondary">+</button>
-                    </div>
-                  </div>
-                  </div>
+              {sizes.filter(item => item.available === true).length && 
+                <div className="text-center">
+                  {sizeSection()}
+                  {amountSection()}
+                  {buttonSection()}
                 </div>
-              </div>
-              <button type="button" className="btn btn-danger container-fluid mt-4">В корзину</button>
+              }
             </div>
           </div>
         </section>

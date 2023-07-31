@@ -30,7 +30,7 @@ const initialSelectedProduct: IFullProduct = {
   reason: '',
   season: '',
   heelSize: '',
-  price: '',
+  price: 0,
   sizes: [],
 }
 
@@ -40,6 +40,8 @@ export const selectedProductSlice = createSlice({
     product: initialSelectedProduct,
     statusSelectedProduct: 'idle',
     errorSelectedProduct: null,
+    selectedSize: '',
+    selectedAmount: 0,
   } as ISelectedProduct,
   reducers: {
   },

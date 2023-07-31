@@ -3,6 +3,7 @@ import productsReducer from '../features/products/productsSlice';
 import topSalesReducer from '../features/topSales/topSalesSlice';
 import selectedProductReducer from '../features/selectedProduct/selectedProductSlice';
 import categoriesReducer from '../features/categories/categoriesSlice';
+import cartReducer from '../features/cart/cartSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     topSales: topSalesReducer,
     selectedProduct: selectedProductReducer,
+    cart: cartReducer,
   },
 });
 

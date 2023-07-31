@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Banner from './Banner';
 import { saveSearchRequest } from '../features/products/productsSlice';
-import { useAppDispatch } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 export default function Header() {
   const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart);
   const [searchQuery, setSearchQuery] = useState('');
   const [toggle, setToggle] = useState(true);
+  const cartCount = cart.cartProducts.length;
 
   function handleSearchQuery() {
-    dispatch(saveSearchRequest(searchQuery));
+    if (searchQuery.trim()) {
+      dispatch(saveSearchRequest(searchQuery));
+    };
     setToggle(prev => !prev);
   };
 
@@ -18,7 +22,9 @@ export default function Header() {
     if (event.key === "Enter") {
       event.preventDefault();
       event.currentTarget.blur();
-      dispatch(saveSearchRequest(searchQuery));
+      if (searchQuery.trim()) {
+        dispatch(saveSearchRequest(searchQuery));
+      };
       setToggle(prev => !prev);
     }
   };
@@ -35,17 +41,16 @@ export default function Header() {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => handleClick(e)}
           />
-        <Link to='/catalog'>
-
-        <button 
-          type="button"
-          className='search-button-second'
-          title="search-button-second"
-          onClick={handleSearchQuery}
-        >
-            <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-        </button>
-        </Link>
+          <Link to='/catalog'>
+            <button 
+              type="button"
+              className='search-button-second'
+              title="search-button-second"
+              onClick={handleSearchQuery}
+            >
+              <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+            </button>
+          </Link>
         </form>
       </div>
     )
@@ -94,7 +99,7 @@ export default function Header() {
               {toggle ? btnSearch() : searchForm()}
               <Link to="/cart">
                 <div className="header-controls-pic mt-4 header-controls-cart">
-                  <div className="header-controls-cart-full">1</div>
+                  {(cartCount > 0) && <div className="header-controls-cart-full">{cartCount}</div>}
                   <div className="header-controls-cart-menu"></div>
                 </div>
               </Link>

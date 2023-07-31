@@ -341,3 +341,9 @@ h2 {
   background-color: #727e86;
   border-color: #727e86;
 }
+
+/* Order */
+.order-card {
+  max-width: 30rem;
+  margin: 0 auto;
+}
