@@ -8,20 +8,20 @@ export const sendOrder = createAsyncThunk(
           try{
           const response = await fetch('http://localhost:7070/api/order',
           {
-            method: 'POST',
+            method: 'post',
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({ ...order }),
+            body: JSON.stringify(order),
           }
           );
           if (!response.ok) {
               return rejectWithValue(response.status)
           }
-          const data = await response.json();
+          const data = await response.text();
           return fulfillWithValue(data)
       }catch(error: any){
-          throw rejectWithValue('Ошибка при отправке заказа.')
+          throw rejectWithValue(`Ошибка при отправке заказа: ${error.message}`)
       }
   }
 );
@@ -29,7 +29,7 @@ export const sendOrder = createAsyncThunk(
 const initialOrder: IOrder = {
   owner: {
     phone: '',
-    address: '',
+    address: ''
   },
   items: []
 };
@@ -66,20 +66,20 @@ export const cartSlice = createSlice({
       const itemsList = state.cartProducts.map((cartProduct) => { 
         return (
           {
-            id: Number(cartProduct.product.id),
-            price: cartProduct.product.price,
-            count: cartProduct.count,
+            "id": Number(cartProduct.product.id),
+            "price": cartProduct.product.price,
+            "count": cartProduct.count
           }
         )
-      }
-    );
-    state.order = {
-      owner: {
-        phone: action.payload.phone,
-        address: action.payload.address,
-      },
-      items: itemsList
-    };
+      });
+      console.log(itemsList);
+      state.order = {
+        "owner": {
+          "phone": action.payload.userPhone,
+          "address": action.payload.userAddress
+        },
+        "items": itemsList
+      };
     }
   },
 

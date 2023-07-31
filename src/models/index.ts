@@ -89,6 +89,6 @@ export interface ICatalogProps {
 };
 
 export interface IPlaceOrderProps {
-  phone: string, 
-  address: string,
+  userPhone: string, 
+  userAddress: string,
 }

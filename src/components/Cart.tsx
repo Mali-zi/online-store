@@ -9,8 +9,8 @@ export default function Cart() {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
   const {cartProducts, statusCart, errorCart, order} = cart;
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const [userPhone, setUserPhone] = useState('');
+  const [userAddress, setUserAddress] = useState('');
   const [checked, setChecked] = useState(false);
   const [formerrors, setFormErrors] = useState('');
 
@@ -35,17 +35,17 @@ export default function Cart() {
     let errors = '';
     e.preventDefault();
 
-    if (!phone.trim() || !address.trim()) {
+    if (!userPhone.trim() || !userAddress.trim()) {
       errors = "Ошибка: все поля должны быть заполнены.";
     } else {
-      if(phone.trim().length !== 12){
+      if(userPhone.trim().length !== 12){
         errors = "Ошибка в номере телефона.";
       } else {
         var pattern = new RegExp(/^((\+7)+([0-9]){10})$/);
-        if (!pattern.test(phone)) {
+        if (!pattern.test(userPhone)) {
           errors = "Введите номер телефона в формате: +79859876543";
         } else {
-          dispatch(placeOrder({phone, address}));
+          dispatch(placeOrder({userPhone, userAddress}));
           errors = '';
           dispatch(sendOrder(order));
         };
@@ -90,9 +90,8 @@ export default function Cart() {
                     className="form-control" 
                     id="phone" 
                     placeholder="Ваш телефон"
-                    value={phone}
-                    // value={`${phone.substring(0, 2)} ${phone.substring(2, 5)} ${phone.substring(5, 8)} ${phone.substring(8, 10)} ${phone.substring(10, phone.length)}`}
-                    onChange={(e) => {setPhone(e.target.value)}}
+                    value={userPhone}
+                    onChange={(e) => {setUserPhone(e.target.value)}}
                     autoFocus
                     required={true}
                     maxLength={12}
@@ -107,8 +106,8 @@ export default function Cart() {
                     id="address" 
                     placeholder="Адрес доставки"
                     required={true}
-                    value={address}
-                    onChange={(e) => {setAddress(e.target.value)}}
+                    value={userAddress}
+                    onChange={(e) => {setUserAddress(e.target.value)}}
                   />
                 </div>
                 <div className="form-group form-check">
