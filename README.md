@@ -1,12 +1,11 @@
 # Интернет-магазин обуви
 
 Согласно техзаданию разработана frontend-часть интернет-магазина обуви.
-
-## Стек
-React
-Redux-Toolkit
-TypeScript
-Bootstrap
+Стек:
+-  React
+-  Redux-Toolkit
+-  TypeScript
+-  Bootstrap
 
 ## Содержание
 Приложение содержит следующие самостоятельные экраны (страницы):
@@ -70,7 +69,7 @@ Bootstrap
 
 ### Страница товара
 Страница товара выглядит следующим образом:
-<img width="900" alt="ProductPage" src="https://github.com/Mali-zi/online-store/blob/master/assets/ProductPage.JPG">
+<img width="700" alt="ProductPage" src="https://github.com/Mali-zi/online-store/blob/master/assets/ProductPage.JPG">
 
 Страница открывается при нажатии кнопок «Заказать» в карточках товаров(Route path='/catalog/:id'). Где id — это ID товара.
 
@@ -87,7 +86,7 @@ Bootstrap
 ### Страница корзины
 В корзину можно попасть, либо заказав что-то, либо кликнув на иконку корзины в шапке сайта.
 Корзина выглядит следующим образом:
-<img width="900" alt="footer" src="https://github.com/Mali-zi/online-store/blob/master/assets/Cart.JPG">
+<img width="700" alt="footer" src="https://github.com/Mali-zi/online-store/blob/master/assets/Cart.JPG">
 
 Блок «Корзина» отображает товары, находящиеся в корзине. 
 Одной позицией считается пара — товар + размер. То есть если купить те же босоножки другого размера, то это будет две позиции в корзине. А если два раза купить босоножки того же размера, то изменится количество и общая стоимость, но запись останется в табличке одна.
@@ -101,4 +100,4 @@ Bootstrap
 
 ### 404
 При вводе несуществующего URL, не соответствующего ни одному из путей, пользователю показывается страница Page404 (Route path='*'):
-<img width="900" alt="Page404" src="https://github.com/Mali-zi/online-store/blob/master/assets/Page404.JPG">
+<img width="700" alt="Page404" src="https://github.com/Mali-zi/online-store/blob/master/assets/Page404.JPG">
