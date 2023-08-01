@@ -81,18 +81,18 @@ export default function ProductPage() {
 
   function buttonSection() {
     return (
-      <div>
-        <button 
-          type="button" 
-          className="btn btn-danger container-fluid mt-4"
-          disabled={pickedSize === ''}
-          onClick={handleToCart}
-        >
-          <Link to='/cart'>
-            В корзину
-          </Link>
-        </button>
-      </div>
+      <Link to='/cart'>
+        <div>
+          <button 
+            type="button" 
+            className="btn btn-danger container-fluid mt-4"
+            disabled={pickedSize === ''}
+            onClick={handleToCart}
+          >
+              В корзину
+          </button>
+        </div>
+      </Link>
     )
   };
 

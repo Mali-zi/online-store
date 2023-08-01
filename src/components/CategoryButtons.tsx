@@ -1,13 +1,11 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addProducts, fetchProducts, sendSearchRequest, setCategory, handleClearSearchRequest } from '../features/products/productsSlice';
-
-
+import { setCategory, handleClearSearchRequest } from '../features/products/productsSlice';
 
 export default function CategoryButtons() {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories);
-  const { categoriesList, statusCategories, errorCategories } = categories;
+  const { categoriesList } = categories;
 
   const newCategories = [{id: 'Все', title: "Все"}, ...categoriesList];
   const newCategoriesList = newCategories.map((item) => {
@@ -36,6 +34,5 @@ export default function CategoryButtons() {
         </ul>
       </div>
     </nav>
-
   )
 }

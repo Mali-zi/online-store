@@ -20,6 +20,14 @@ a:hover {
   cursor: pointer;
 }
 
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+  color: #727e86;
+}
+
+.nav-link.active:focus, .nav-link.active:hover {
+  color: red;
+}
+
 section {
   margin-top: 2em;
   margin-bottom: 2em;
@@ -194,22 +202,12 @@ ul {
 }
 
 /* Catalog */
-/* .category-btn {
-  border: none;
-  color: #727e86;
-} */
-
-/* .category-btn:active, .category-btn:hover, .category-bt:focus {
-  color: red;
-  outline-color: red;
-} */
-
-.btn{
+.btn.category-btn{
   color: #727e86;
   border: none;
 } 
 
-.btn:focus{
+.category-btn:focus, .category-btn:hover{
   color: red;
 }
 
@@ -332,6 +330,15 @@ ul {
   display: block;
 }
 
+.footer-link, .header-link {
+  color: #727e86;
+} 
+
+.footer-link:focus, .footer-link:hover,
+.header-link:focus, .header-link:hover {
+  color: red;
+}
+
 /* Bootstrap */
 h2 {
   margin-bottom: 1.5em;
@@ -353,11 +360,4 @@ h2 {
 .order-card {
   max-width: 30rem;
   margin: 0 auto;
-}
-
-
-.btn:active,
-.btn:hover {
-    border-color: yellow;
-    color: red;
 }

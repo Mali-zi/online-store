@@ -81,20 +81,23 @@ export default function Header() {
               <div className="collapase navbar-collapse" id="navbarMain">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <NavLink to="/" className="nav-link">Главная</NavLink>
+                    <Link to="/" className="nav-link active header-link">Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/catalog" className="nav-link">Каталог</NavLink>
+                    <Link to="/catalog" className="nav-link active header-link">Каталог</Link>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/about" className="nav-link">О магазине</NavLink>
+                    <Link to="/about" className="nav-link active header-link">О магазине</Link>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/contacts" className="nav-link">Контакты</NavLink>
+                    <Link to="/contacts" className="nav-link active header-link">Контакты</Link>
                   </li>
                 </ul>
               </div>
             </nav>
+
+
+
             <div className='d-flex justify-content-end align-items-start'>
               {toggle ? btnSearch() : searchForm()}
               <Link to="/cart">

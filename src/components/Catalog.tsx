@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ProductCard from './ProductCard';
-import { addProducts, fetchProducts, sendSearchRequest, setCategory, handleClearSearchRequest } from '../features/products/productsSlice';
+import { addProducts, fetchProducts, sendSearchRequest } from '../features/products/productsSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import Loading from './Loading';
 
@@ -10,7 +10,7 @@ export default function Catalog() {
   const products = useAppSelector((state) => state.products);
   const categories = useAppSelector((state) => state.categories);
   const { productList, curentCategory, curentFetchProducts, savedSearchRequest, statusProducts, errorProducts } = products;
-  const { categoriesList, statusCategories, errorCategories } = categories;
+  const { statusCategories, errorCategories } = categories;
   const [i, setI] = useState(1);
 
   useEffect(() => {
@@ -30,25 +30,6 @@ export default function Catalog() {
     };
     setI(1);
   }, [curentCategory, savedSearchRequest]);
-
-  // const newCategories = [{id: 'Все', title: "Все"}, ...categoriesList];
-  // const newCategoriesList = newCategories.map((item) => {
-  //   return (
-  //     <li key={item.id} className="nav-item">
-  //       <button 
-  //         type="button" 
-  //         data-bs-toggle="button" 
-  //         className="btn mx-2 active category-btn"
-  //         onClick={() => {
-  //           dispatch(setCategory(item.id.toString()));
-  //           dispatch(handleClearSearchRequest());
-  //         }}
-  //       >
-  //         {item.title}
-  //       </button>
-  //     </li>
-  //   )
-  // });
 
   function handleElse() {
     if (curentCategory === 'Search') {
