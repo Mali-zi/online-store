@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Catalog from './Catalog'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleClearError, saveSearchRequest } from '../features/products/productsSlice';
+import CategoryButtons from './CategoryButtons';
 
 export default function CatalogPage() {
   const dispatch = useAppDispatch();
@@ -25,25 +26,24 @@ export default function CatalogPage() {
     <main className="container">
       <div className="row">
         <div className="col">
-          <Catalog>
-            <>
-            <form role="search" className="catalog-search-form form-inline">
-              <input 
-                id="mySearch" 
-                name="q"
-                type='search' 
-                className="form-control" 
-                placeholder="Поиск"
-                aria-label="Search through site content"
-                value={searchRequest} 
-                onChange={e => setSearchRequest(e.target.value)}
-                onKeyDown={(e) => handleSearchRequest(e)}
-                onFocus={() => dispatch(handleClearError())}
-              />
-            </form>
-            {errorProducts && <div className='fs-4 text-danger text-center'>{errorProducts}</div>}
-            </>
-          </Catalog>
+          <h2 className="text-center">Каталог</h2>
+          <form role="search" className="catalog-search-form form-inline">
+            <input 
+              id="mySearch" 
+              name="q"
+              type='search' 
+              className="form-control" 
+              placeholder="Поиск"
+              aria-label="Search through site content"
+              value={searchRequest} 
+              onChange={e => setSearchRequest(e.target.value)}
+              onKeyDown={(e) => handleSearchRequest(e)}
+              onFocus={() => dispatch(handleClearError())}
+            />
+          </form>
+          {errorProducts && <div className='fs-4 text-danger text-center'>{errorProducts}</div>}
+          <CategoryButtons />
+          <Catalog />
         </div>
       </div>
     </main>
