@@ -33,7 +33,7 @@ export default function Catalog() {
 
   function handleElse() {
     if (curentCategory === 'Search') {
-      dispatch(addProducts(`http://localhost:7070/api/items?q=${savedSearchRequest}=${6 * i}`));
+      dispatch(addProducts(`http://localhost:7070/api/items?q=${savedSearchRequest}&offset=${6 * i}`));
     } else {
       if (curentCategory === 'Все') {
         dispatch(addProducts(`http://localhost:7070/api/items?offset=${6 * i}`));

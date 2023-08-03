@@ -102,6 +102,7 @@ ul {
 .header-controls-search-form .form-control {
   width: 100%;
   height: 100%;
+  margin-top: 3px;
   color: #333333;
   border: none;
   outline: none;
@@ -117,8 +118,9 @@ ul {
 
 .search-button-second {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 15px;
+  top: 2px;
+  padding: 0;
   border: none;
   outline: none;
   background-color: #fff;
@@ -202,6 +204,12 @@ ul {
 }
 
 /* Catalog */
+.card-img-top {
+  width: 100%;
+  height: 25vw;
+  object-fit: contain;
+}
+
 .btn.category-btn{
   color: #727e86;
   border: none;

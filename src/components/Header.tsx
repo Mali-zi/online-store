@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Banner from './Banner';
 import { saveSearchRequest } from '../features/products/productsSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -60,20 +60,20 @@ export default function Header() {
     return (
       <button 
         type="button"
-        className='search-button-first'
+        className='search-button-first bg-light'
         title="search-button-first"
         onClick={() => setToggle(prev => !prev)}
       >
         <div data-id="search-expander" className="header-controls-pic header-controls-search mx-0"></div>
       </button>
     )
-  }
+  };
 
   return (
     <header className="container">
       <div className="row">
         <div className="col">
-          <div className='d-flex justify-content-between'>
+          <div className='d-flex justify-content-between bg-light'>
             <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between navbar-col">
               <Link to="/" className="navbar-brand">
                 <img src={require("../img/header-logo.png")} alt="Bosa Noga" />
@@ -95,9 +95,6 @@ export default function Header() {
                 </ul>
               </div>
             </nav>
-
-
-
             <div className='d-flex justify-content-end align-items-start'>
               {toggle ? btnSearch() : searchForm()}
               <Link to="/cart">

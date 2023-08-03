@@ -7,7 +7,6 @@ if (localStorageItems) {
   initialCartProducts = JSON.parse(localStorageItems);
 };
 
-
 export const sendOrder = createAsyncThunk(
   'cart/sendOrder',
   async (order: IOrder, thunkApi) => {
