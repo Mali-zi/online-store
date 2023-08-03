@@ -1,6 +1,13 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {ICartProducts, ICartProduct, IOrder, IPlaceOrderProps} from '../../models/index';
 
+const localStorageItems = localStorage.getItem('cartProducts');
+let initialCartProducts: ICartProduct[] = [];
+if (localStorageItems) {
+  initialCartProducts = JSON.parse(localStorageItems);
+};
+
+
 export const sendOrder = createAsyncThunk(
   'cart/sendOrder',
   async (order: IOrder, thunkApi) => {
@@ -37,7 +44,7 @@ const initialOrder: IOrder = {
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartProducts: [],
+    cartProducts: initialCartProducts,
     statusCart: 'idle',
     errorCart: null,
     order: initialOrder,
@@ -99,9 +106,9 @@ export const cartSlice = createSlice({
       .addCase(sendOrder.fulfilled, (state) => {
         state.statusCart = 'fulfilled';
         state.cartProducts = [];
-        state.statusCart = 'fulfilled';
         state.errorCart = null;
         state.order = initialOrder;
+        localStorage.clear();
       })
       .addCase(sendOrder.pending, (state) => {
         state.statusCart = 'pending';
