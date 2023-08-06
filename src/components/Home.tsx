@@ -4,7 +4,6 @@ import Catalog from './Catalog';
 import CategoryButtons from './CategoryButtons';
 
 export default function Home() {
-
   return (
     <main className="container">
       <div className="row">
@@ -17,5 +16,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }

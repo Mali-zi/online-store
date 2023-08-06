@@ -1,20 +1,20 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ISelectedProduct, IFullProduct } from '../../models/index';
 
 export const fetchSelectedProduct = createAsyncThunk(
   'selectedProduct/fetchSelectedProduct',
   async (id: string, thunkApi) => {
     const { rejectWithValue, fulfillWithValue } = thunkApi;
-          try{
-          const response = await fetch(`http://localhost:7070/api/items/${id}`);
-          if (!response.ok) {
-              return rejectWithValue(response.status)
-          }
-          const data = await response.json();
-          return fulfillWithValue(data)
-      }catch(error: any){
-          throw rejectWithValue(error.message)
+    try {
+      const response = await fetch(`http://localhost:7070/api/items/${id}`);
+      if (!response.ok) {
+        return rejectWithValue(response.status);
       }
+      const data = await response.json();
+      return fulfillWithValue(data);
+    } catch (error: any) {
+      throw rejectWithValue(error.message);
+    }
   }
 );
 
@@ -32,7 +32,7 @@ const initialSelectedProduct: IFullProduct = {
   heelSize: '',
   price: 0,
   sizes: [],
-}
+};
 
 export const selectedProductSlice = createSlice({
   name: 'selectedProduct',
@@ -43,9 +43,8 @@ export const selectedProductSlice = createSlice({
     selectedSize: '',
     selectedAmount: 0,
   } as ISelectedProduct,
-  reducers: {
-  },
-  
+  reducers: {},
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchSelectedProduct.fulfilled, (state, action: PayloadAction<IFullProduct>) => {
@@ -53,7 +52,7 @@ export const selectedProductSlice = createSlice({
         if (action.payload) {
           state.product = action.payload;
         } else {
-          state.errorSelectedProduct = 'Карточка товара не может быть загружена.'
+          state.errorSelectedProduct = 'Карточка товара не может быть загружена.';
         }
       })
       .addCase(fetchSelectedProduct.pending, (state) => {
@@ -65,9 +64,9 @@ export const selectedProductSlice = createSlice({
           state.errorSelectedProduct = action.payload;
         } else {
           state.errorSelectedProduct = 'Ошибка при загрузке карточки товара.';
-        };
-      })
-  }
-})
+        }
+      });
+  },
+});
 
 export default selectedProductSlice.reducer;

@@ -1,25 +1,22 @@
-import { PayloadAction,  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {IProduct, ITopSales} from '../../models/index';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { IProduct, ITopSales } from '../../models/index';
 
-export const fetchTopSales = createAsyncThunk(
-  'topSales/fetchTopSales',
-  async (url: string, thunkApi) => {
-    const { rejectWithValue, fulfillWithValue } = thunkApi;
-          try{
-          const response = await fetch(`${url}/top-sales`);
-          if (!response.ok) {
-              return rejectWithValue(response.status)
-          }
-          const data = await response.json();
-          return fulfillWithValue(data)
-      }catch(error: any){
-        if (!error.response) {
-          throw error
-        }
-        return rejectWithValue(error.message)
-      }
+export const fetchTopSales = createAsyncThunk('topSales/fetchTopSales', async (url: string, thunkApi) => {
+  const { rejectWithValue, fulfillWithValue } = thunkApi;
+  try {
+    const response = await fetch(`${url}/top-sales`);
+    if (!response.ok) {
+      return rejectWithValue(response.status);
+    }
+    const data = await response.json();
+    return fulfillWithValue(data);
+  } catch (error: any) {
+    if (!error.response) {
+      throw error;
+    }
+    return rejectWithValue(error.message);
   }
-);
+});
 
 export const topSalesSlice = createSlice({
   name: 'topSales',
@@ -28,9 +25,8 @@ export const topSalesSlice = createSlice({
     statusTopSales: 'idle',
     errorTopSales: null,
   } as ITopSales,
-  reducers: {
-  },
-  
+  reducers: {},
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchTopSales.fulfilled, (state, action: PayloadAction<IProduct[]>) => {
@@ -50,9 +46,9 @@ export const topSalesSlice = createSlice({
           state.errorTopSales = action.payload;
         } else {
           state.errorTopSales = 'Ошибка при загрузке хитов продаж.';
-        };
-      })
-  }
-})
+        }
+      });
+  },
+});
 
 export default topSalesSlice.reducer;

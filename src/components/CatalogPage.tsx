@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Catalog from './Catalog'
+import React, { useEffect, useState } from 'react';
+import Catalog from './Catalog';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleClearError, saveSearchRequest } from '../features/products/productsSlice';
 import CategoryButtons from './CategoryButtons';
@@ -9,18 +9,18 @@ export default function CatalogPage() {
   const products = useAppSelector((state) => state.products);
   const { savedSearchRequest, errorProducts } = products;
   const [searchRequest, setSearchRequest] = useState(savedSearchRequest);
-  
+
   function handleSearchRequest(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
       event.currentTarget.blur();
       dispatch(saveSearchRequest(searchRequest));
     }
-  };
+  }
 
   useEffect(() => {
-    setSearchRequest(savedSearchRequest)
-  }, [savedSearchRequest])
+    setSearchRequest(savedSearchRequest);
+  }, [savedSearchRequest]);
 
   return (
     <main className="container">
@@ -28,24 +28,24 @@ export default function CatalogPage() {
         <div className="col">
           <h2 className="text-center">Каталог</h2>
           <form role="search" className="catalog-search-form form-inline">
-            <input 
-              id="mySearch" 
+            <input
+              id="mySearch"
               name="q"
-              type='search' 
-              className="form-control" 
+              type="search"
+              className="form-control"
               placeholder="Поиск"
               aria-label="Search through site content"
-              value={searchRequest} 
-              onChange={e => setSearchRequest(e.target.value)}
+              value={searchRequest}
+              onChange={(e) => setSearchRequest(e.target.value)}
               onKeyDown={(e) => handleSearchRequest(e)}
               onFocus={() => dispatch(handleClearError())}
             />
           </form>
-          {errorProducts && <div className='fs-4 text-danger text-center'>{errorProducts}</div>}
+          {errorProducts && <div className="fs-4 text-danger text-center">{errorProducts}</div>}
           <CategoryButtons />
           <Catalog />
         </div>
       </div>
     </main>
-  )
+  );
 }
