@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ISelectedProduct, IFullProduct } from '../../models/index';
+import { ISelectedProduct, IFullProduct } from '../../models/cart';
 
 export const fetchSelectedProduct = createAsyncThunk(
   'selectedProduct/fetchSelectedProduct',

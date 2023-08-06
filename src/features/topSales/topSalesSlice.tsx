@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IProduct, ITopSales } from '../../models/index';
+import { IProduct, ITopSales } from '../../models/product';
 
 export const fetchTopSales = createAsyncThunk('topSales/fetchTopSales', async (url: string, thunkApi) => {
   const { rejectWithValue, fulfillWithValue } = thunkApi;

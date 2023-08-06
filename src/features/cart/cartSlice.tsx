@@ -1,5 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ICartProducts, ICartProduct, IOrder, IPlaceOrderProps } from '../../models/index';
+import { ICartProducts, ICartProduct, IOrder } from '../../models/cart';
+
+interface IPlaceOrderProps {
+  userPhone: string;
+  userAddress: string;
+}
 
 const localStorageItems = localStorage.getItem('cartProducts');
 let initialCartProducts: ICartProduct[] = [];

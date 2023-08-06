@@ -1,6 +1,10 @@
 import React from 'react';
-import { IProductCardProps } from '../models';
+import { IProduct } from '../models/product';
 import { Link } from 'react-router-dom';
+
+interface IProductCardProps {
+  product: IProduct;
+}
 
 export default function ProductCard({ product }: IProductCardProps) {
   return (

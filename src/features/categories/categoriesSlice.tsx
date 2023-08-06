@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ICategory, ICategories } from '../../models/index';
+import { ICategory, ICategories } from '../../models/category';
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async (url: string, thunkApi) => {
   const { rejectWithValue, fulfillWithValue } = thunkApi;
