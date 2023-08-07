@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Banner from './Banner';
 import { saveSearchRequest } from '../features/products/productsSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -10,47 +10,39 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [toggle, setToggle] = useState(true);
   const cartCount = cart.cartProducts.length;
+  const navigate = useNavigate();
 
-  function handleSearchQuery() {
+  function handleSubmit() {
     if (searchQuery.trim()) {
       dispatch(saveSearchRequest(searchQuery));
-    }
+    };
     setToggle((prev) => !prev);
-  }
-
-  function handleClick(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      event.currentTarget.blur();
-      if (searchQuery.trim()) {
-        dispatch(saveSearchRequest(searchQuery));
-      }
-      setToggle((prev) => !prev);
-    }
-  }
+    navigate('/catalog');
+  };
 
   function searchForm() {
     return (
       <div className="header-controls-pics mt-4 header-controls-search-form">
-        <form className="d-flex form-inline" role="search">
+        <form 
+          className="d-flex form-inline" 
+          role="search"
+          onSubmit={handleSubmit}  
+        >
           <input
             type="search"
             className="form-control"
             placeholder="Поиск"
+            aria-label="Поиск"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => handleClick(e)}
           />
-          <Link to="/catalog">
-            <button
-              type="button"
-              className="search-button-second"
-              title="search-button-second"
-              onClick={handleSearchQuery}
-            >
-              <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-            </button>
-          </Link>
+          <button
+            type="submit"
+            className="search-button-second"
+            title="search-button-second"
+          >
+            <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+          </button>
         </form>
       </div>
     );

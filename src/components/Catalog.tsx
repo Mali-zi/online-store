@@ -71,9 +71,7 @@ export default function Catalog() {
       return (
         <section className="catalog">
           <ul className="row row-cols-1 row-cols-md-3 g-4">
-            {productList.map((item) => (
-              <ProductCard product={item} />
-            ))}
+            {productList.map((item) => <ProductCard product={item} />)}
           </ul>
           {btnElse()}
         </section>
