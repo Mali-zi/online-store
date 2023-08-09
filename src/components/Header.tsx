@@ -12,12 +12,13 @@ export default function Header() {
   const cartCount = cart.cartProducts.length;
   const navigate = useNavigate();
 
-  function handleSubmit() {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (searchQuery.trim()) {
       dispatch(saveSearchRequest(searchQuery));
     };
     setToggle((prev) => !prev);
     navigate('/catalog');
+    event.preventDefault();
   };
 
   function searchForm() {
@@ -26,7 +27,7 @@ export default function Header() {
         <form 
           className="d-flex form-inline" 
           role="search"
-          onSubmit={handleSubmit}  
+          onSubmit={(e) => handleSubmit(e)}  
         >
           <input
             type="search"

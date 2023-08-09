@@ -14,10 +14,6 @@ export default function Cart() {
     dispatch(clearStatus());
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
-  }, [cartProducts]);
-
   const cartProductsList = cartProducts.map((cartProduct, index) => {
     return (
       <tr key={index}>

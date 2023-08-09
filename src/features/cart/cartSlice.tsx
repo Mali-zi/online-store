@@ -6,12 +6,6 @@ interface IPlaceOrderProps {
   userAddress: string;
 }
 
-const localStorageItems = localStorage.getItem('cartProducts');
-let initialCartProducts: ICartProduct[] = [];
-if (localStorageItems) {
-  initialCartProducts = JSON.parse(localStorageItems);
-}
-
 export const sendOrder = createAsyncThunk('cart/sendOrder', async (order: IOrder, thunkApi) => {
   const { rejectWithValue, fulfillWithValue } = thunkApi;
   try {
@@ -32,6 +26,7 @@ export const sendOrder = createAsyncThunk('cart/sendOrder', async (order: IOrder
   }
 });
 
+const initialCartProducts: ICartProduct[] = [];
 const initialOrder: IOrder = {
   owner: {
     phone: '',
@@ -107,7 +102,6 @@ export const cartSlice = createSlice({
         state.cartProducts = [];
         state.errorCart = null;
         state.order = initialOrder;
-        localStorage.clear();
       })
       .addCase(sendOrder.pending, (state) => {
         state.statusCart = 'pending';
@@ -119,7 +113,7 @@ export const cartSlice = createSlice({
         } else {
           state.errorCart = 'Ошибка при отправке заказа.';
         }
-      });
+      })
   },
 });
 

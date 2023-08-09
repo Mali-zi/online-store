@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Catalog from './Catalog';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleClearError, saveSearchRequest } from '../features/products/productsSlice';
@@ -9,14 +9,15 @@ export default function CatalogPage() {
   const products = useAppSelector((state) => state.products);
   const { savedSearchRequest, errorProducts } = products;
   const [searchRequest, setSearchRequest] = useState(savedSearchRequest);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  function handleSearchRequest(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      event.currentTarget.blur();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (searchRequest.trim()) {
       dispatch(saveSearchRequest(searchRequest));
-    }
-  }
+      inputRef.current?.blur();
+    };
+    event.preventDefault();
+  };
 
   useEffect(() => {
     setSearchRequest(savedSearchRequest);
@@ -27,7 +28,11 @@ export default function CatalogPage() {
       <div className="row">
         <div className="col">
           <h2 className="text-center">Каталог</h2>
-          <form role="search" className="catalog-search-form form-inline">
+          <form 
+            role="search" 
+            className="catalog-search-form form-inline"
+            onSubmit={(e) => handleSubmit(e)}  
+          >
             <input
               id="mySearch"
               name="q"
@@ -36,8 +41,8 @@ export default function CatalogPage() {
               placeholder="Поиск"
               aria-label="Search through site content"
               value={searchRequest}
+              ref={inputRef}
               onChange={(e) => setSearchRequest(e.target.value)}
-              onKeyDown={(e) => handleSearchRequest(e)}
               onFocus={() => dispatch(handleClearError())}
             />
           </form>
