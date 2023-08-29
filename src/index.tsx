@@ -5,7 +5,7 @@ import { persistor, store } from './app/store';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -14,12 +14,12 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter basename='/'>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <App />
         </PersistGate>
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
